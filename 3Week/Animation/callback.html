@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Callback Box Animation</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        html, body{
+            height:100%;
+            margin:0;
+            padding:0;
+            overflow:hidden;
+        }
+
+        .container{
+            width:100vw;
+            height:100vh;
+            position:relative;
+            background:#f2f2f2;
+            border:5px solid black;
+        }
+
+        .box{
+            width:100px;
+            height:100px;
+            background:red;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box"></div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+
+    let maxX = $(".container").width() - 100;
+    let maxY = $(".container").height() - 100;
+
+    function step6(){
+
+        $(".box").animate({ top:maxY, left:0, opacity:0.1 },1000, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","red");
+
+                // LOOP AGAIN
+                run();
+            });
+        });
+
+    }
+
+    function step5(){
+
+        $(".box").animate({ top:maxY, left:maxX, opacity:0.1 },1000, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","purple");
+                step6();
+            });
+        });
+
+    }
+
+    function step4(){
+
+        $(".box").animate({ top:0, left:0, opacity:0.2 },800, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","pink");
+                step5();
+            });
+        });
+
+    }
+
+    function step3(){
+
+        $(".box").animate({ top:maxY, left:0, opacity:0.3 },800, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","orange");
+                step4();
+            });
+        });
+
+    }
+
+    function step2(){
+
+        $(".box").animate({ top:maxY, left:maxX, opacity:0.2 },800, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","green");
+                step3();
+            });
+        });
+
+    }
+
+    function step1(){
+
+        $(".box").animate({ top:0, left:maxX, opacity:0.3 },800, function(){
+            $(this).animate({ opacity:1 },200, function(){
+                $(this).css("background","blue");
+                step2();
+            });
+        });
+
+    }
+
+    function run(){
+        step1();
+    }
+
+    run();
+
+});
+</script>
+
+</body>
+</html>

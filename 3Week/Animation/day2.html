@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagonal Box Animation</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        html, body{
+            height:100%;
+            margin:0;
+            padding:0;
+            overflow:hidden;
+        }
+
+        .container{
+            width:100vw;
+            height:100vh;
+            position:relative;
+            background:#f2f2f2;
+            border:5px solid black;
+        }
+
+        .box{
+            width:100px;
+            height:100px;
+            background:red;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box"></div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+
+    let maxX = $(".container").width() - 100;
+    let maxY = $(".container").height() - 100;
+
+    function run(){
+
+        $(".box")
+
+        // 1. TL → TR
+        .animate({ top:0, left:maxX, opacity:0.3 },800)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","blue");
+            next();
+        })
+
+        // 2. TR → BR
+        .animate({ top:maxY, left:maxX, opacity:0.2 },800)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","green");
+            next();
+        })
+
+        // 3. BR → BL
+        .animate({ top:maxY, left:0, opacity:0.3 },800)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","orange");
+            next();
+        })
+
+        // 4. BL → TL
+        .animate({ top:0, left:0, opacity:0.2 },800)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","pink");
+            next();
+        })
+
+        // 5. DIAGONAL 1 → TL → BR
+        .animate({ top:maxY, left:maxX, opacity:0.1 },1000)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","purple");
+            next();
+        })
+
+        // 6. DIAGONAL 2 → TR → BL  ✅ (MISSING PART FIXED)
+        .animate({ top:maxY, left:0, opacity:0.1 },1000)
+        .animate({ opacity:1 },200)
+        .queue(function(next){
+            $(this).css("background","red");
+            next();
+
+            run(); // LOOP
+        });
+
+    }
+
+    run();
+
+});
+</script>
+
+</body>
+</html>
